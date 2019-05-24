@@ -13,6 +13,11 @@ public class RouteMaster : MonoBehaviour {
     [Tooltip("The smaller the value the more precise it'll be")]
     public float precisionValue = 0.05f;
 
+    [SerializeField]
+    [Range(1f, 100f)]
+    [Tooltip("The probability that an object will spawn at this position")]
+    float possibility = 100f;
+
     public Vector2 EndPoint()
     {
         if (Routes != null && Routes.Count > 0)
@@ -41,11 +46,19 @@ public class RouteMaster : MonoBehaviour {
         }
     }
 
-    public void InitPrefab()
+    public void SpawnObject()
     {
-        //RouteNode = Resources.Load<GameObject>("Route");
-        if (RouteNode != null)
-            Debug.LogError("Failed to load RouteNode from the resources folder");
+        foreach (var route in Routes)
+        {
+            foreach (var pos in route.IndividualPoints)
+            {
+                float rnd = Random.Range(0, 100);
+                if (rnd > possibility)
+                {
+                    // Instantiate at pos
+                }
+            }
+        }
     }
 
     public void Init()

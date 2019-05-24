@@ -26,6 +26,7 @@ public class Route : MonoBehaviour {
                 3 * (1 - t) * Mathf.Pow(t, 2) * controlPoints[2].position +
                 Mathf.Pow(t, 3) * controlPoints[3].position;
 
+            Gizmos.color = Color.green;
             Gizmos.DrawSphere(gizmosPositions, 0.25f);
             IndividualPoints.Add(gizmosPositions);
         }
