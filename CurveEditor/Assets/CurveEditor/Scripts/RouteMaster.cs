@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class RouteMaster : MonoBehaviour {
 
     public Stack<Route> Routes = new Stack<Route>();
@@ -17,6 +18,15 @@ public class RouteMaster : MonoBehaviour {
     [Range(1f, 100f)]
     [Tooltip("The probability that an object will spawn at this position")]
     float possibility = 100f;
+
+    [SerializeField]
+    [Tooltip("The object that will spawn at every individual position on the curve")]
+    GameObject ToSpawn;
+
+    [HideInInspector]
+    public bool isEraseMode = false;
+
+    public const string BUSH = "_bush";
 
     public Vector2 EndPoint()
     {
@@ -48,17 +58,29 @@ public class RouteMaster : MonoBehaviour {
 
     public void SpawnObject()
     {
-        foreach (var route in Routes)
+        if (ToSpawn != null)
         {
-            foreach (var pos in route.IndividualPoints)
+            foreach (var route in Routes)
             {
-                float rnd = Random.Range(0, 100);
-                if (rnd > possibility)
+                foreach (var pos in route.IndividualPoints)
                 {
-                    // Instantiate at pos
+                    float rnd = Random.Range(0, 100);
+                    if (rnd < possibility)
+                    {
+                        // Instantiate at pos
+                        var _bush = Instantiate(ToSpawn, pos, randRot());
+                        _bush.name = "_bush";
+                    }
                 }
             }
         }
+        else
+            Debug.LogError("ERROR: Haven't specified ToSpawn!");
+    }
+
+    Quaternion randRot()
+    {
+        return Quaternion.Euler(0, 0, Random.Range(0, 360));
     }
 
     public void Init()
