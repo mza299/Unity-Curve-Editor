@@ -23,10 +23,20 @@ public class RouteMaster : MonoBehaviour {
     [Tooltip("The object that will spawn at every individual position on the curve")]
     GameObject ToSpawn;
 
+    [Tooltip("An empty GO that represents the Eraser")]
+    public GameObject Eraser;
+
+    [Range(0.1f, 100f)]
+    [Tooltip("The area of which to erase")]
+    public float EraseArea = 1f;
+
     [HideInInspector]
     public bool isEraseMode = false;
 
     public const string BUSH = "_bush";
+
+    [HideInInspector]
+    public List<GameObject> Bushes = new List<GameObject>();
 
     public Vector2 EndPoint()
     {
@@ -70,6 +80,7 @@ public class RouteMaster : MonoBehaviour {
                         // Instantiate at pos
                         var _bush = Instantiate(ToSpawn, pos, randRot());
                         _bush.name = "_bush";
+                        Bushes.Add(_bush);
                     }
                 }
             }
