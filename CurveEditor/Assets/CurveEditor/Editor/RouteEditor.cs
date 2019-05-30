@@ -8,6 +8,17 @@ public class RouteEditor : Editor{
     [SerializeField]
     float precision;
 
+    [MenuItem("Besier Curves/Create Route")]
+    public static void Initiate()
+    {
+        var toLoad = Resources.Load("RM") as GameObject;
+        if (toLoad != null)
+            //Instantiate(toLoad);
+            PrefabUtility.InstantiatePrefab(toLoad);
+        else
+            Debug.LogError("Unable to load?");
+    }
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
