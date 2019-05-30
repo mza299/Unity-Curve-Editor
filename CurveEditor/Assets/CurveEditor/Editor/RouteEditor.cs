@@ -92,18 +92,6 @@ public class RouteEditor : Editor{
 
         if (master.isEraseMode == true)
         {
-            //var handleSize = 1f;
-            //var snap = Vector3.one * 0.1f;
-
-            //EditorGUI.BeginChangeCheck();
-            //Vector3 EraserPos = Handles.FreeMoveHandle((master.transform.position + Vector3.left*5f), Quaternion.identity, handleSize, snap,
-            //        Handles.SphereHandleCap);
-
-            //if (EditorGUI.EndChangeCheck())
-            //{
-            //    Undo.RecordObject(master, "Eraser stuff");
-            //    master.Eraser.transform.position = EraserPos;
-            //}
 
             master.Eraser.transform.position = Handles.PositionHandle(master.Eraser.transform.position, Quaternion.identity);
 
