@@ -38,10 +38,10 @@ public class RouteEditor : Editor{
         centeredStyle.alignment = TextAnchor.UpperCenter;
         centeredStyle.fontSize = 15;
         centeredStyle.fontStyle = FontStyle.Bold;
+        centeredStyle.richText = true;
 
         GUILayout.Space(10);
-        GUILayout.Label("Route Management", centeredStyle);
-
+        GUILayout.Label("<color=#a94064>Route Management</color>", centeredStyle);
         GUILayout.BeginHorizontal();
 
         if (GUILayout.Button("New Route"))
@@ -56,6 +56,12 @@ public class RouteEditor : Editor{
         }
 
         GUILayout.EndHorizontal();
+
+        if (GUILayout.Button("Create Flat Route"))
+        {
+            CreateFlatPath(master);
+        }
+
         GUILayout.Space(25);
 
         if (GUILayout.Button("Reload precision points"))
@@ -72,7 +78,7 @@ public class RouteEditor : Editor{
         }
 
         GUILayout.Space(10);
-        GUILayout.Label("Eraser", centeredStyle);
+        GUILayout.Label("<color=#a94064>Eraser</color>", centeredStyle);
 
         if (master.isEraseMode == false)
         {
@@ -91,7 +97,7 @@ public class RouteEditor : Editor{
 
         GUILayout.Space(10);
 
-        GUILayout.Label("Closing the Gap", centeredStyle);
+        GUILayout.Label("<color=#a94064>Closing the Gap</color>", centeredStyle);
         GUILayout.BeginHorizontal();
 
         if (GUILayout.Button("Loop @ Beginning"))
@@ -106,6 +112,16 @@ public class RouteEditor : Editor{
 
         GUILayout.EndHorizontal();
 
+    }
+
+    void CreateFlatPath(RouteMaster m)
+    {
+        var flat = m.NewRoute();
+        if (flat != null)
+        {
+            m.Routes.Peek().controlPoints[1].position = m.Routes.Peek().controlPoints[0].position + (Vector3.right * 10);
+            m.Routes.Peek().controlPoints[2].position = m.Routes.Peek().controlPoints[3].position + (Vector3.left * 10);
+        }
     }
 
     void CloseGap(RouteMaster m, bool atTheBegining)

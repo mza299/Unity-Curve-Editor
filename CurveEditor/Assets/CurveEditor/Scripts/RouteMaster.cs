@@ -62,6 +62,18 @@ public class RouteMaster : MonoBehaviour {
         }
     }
 
+    public GameObject NewRoute()
+    {
+        if (RouteNode != null)
+        {
+            GameObject temp = Instantiate(RouteNode, EndPoint(), Quaternion.identity, transform);
+            Routes.Push(temp.GetComponent<Route>());
+            return temp;
+        }
+        else
+            return null;
+    }
+
     public void DeleteNewestRoute()
     {
         if (Routes.Count > 0)
