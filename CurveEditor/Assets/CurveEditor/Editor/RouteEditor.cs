@@ -138,12 +138,24 @@ public class RouteEditor : Editor{
                 Vector3 newTargetPos = Handles.FreeMoveHandle(routes[i].controlPoints[3].position, Quaternion.identity, handleSize, snap,
                     Handles.SphereHandleCap);
 
+                //The index of the tangent handlers are 1 and 2. These determine the nature of the curve or
+                //how curvy it is
+                Handles.color = Color.grey;
+                Vector3 curveDeterment1 = Handles.FreeMoveHandle(routes[i].controlPoints[1].position, Quaternion.identity, handleSize, snap,
+                    Handles.SphereHandleCap);
+
+                Vector3 curveDeterment2 = Handles.FreeMoveHandle(routes[i].controlPoints[2].position, Quaternion.identity, handleSize, snap,
+                    Handles.SphereHandleCap);
+
                 if (EditorGUI.EndChangeCheck())
                 {
                     Undo.RecordObject(master, "Change Look At Target Position");
                     routes[i].controlPoints[3].position = newTargetPos;
-                    if (routes[i-1] != null)
+                    if (routes[i - 1] != null)
                         routes[i - 1].controlPoints[0].position = newTargetPos;
+
+                    routes[i].controlPoints[1].position = curveDeterment1;
+                    routes[i].controlPoints[2].position = curveDeterment2;
                 }
             }
         }

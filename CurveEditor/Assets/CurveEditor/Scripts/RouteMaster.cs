@@ -165,6 +165,18 @@ public class RouteMaster : MonoBehaviour {
         }
     }
 
+    public List<Route> lRoutes ()
+    {
+        List<Route> temp = new List<Route>();
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            var r = transform.GetChild(i).transform;
+            if (r.GetComponent<Route>() != null)
+                temp.Add(r.GetComponent<Route>());
+        }
+        return temp;
+    }
+
     IEnumerator SpawnFollowers()
     {
         if (curveUsedForMovement && initialInstantiation == false)
