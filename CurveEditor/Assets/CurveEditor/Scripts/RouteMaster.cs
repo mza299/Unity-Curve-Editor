@@ -39,29 +39,8 @@ public class RouteMaster : MonoBehaviour {
     [HideInInspector]
     public List<GameObject> Bushes = new List<GameObject>();
 
-    [Header("AI Movement Parameters")]
-    [SerializeField]
-    [Tooltip("Are you going to use this curve for AI movement")]
-    bool curveUsedForMovement = false;
-
-    [SerializeField]
-    List<GameObject> RouteFollowers = new List<GameObject>();
-
-    Dictionary<GameObject, Vector2> Followers = new Dictionary<GameObject, Vector2>();
-
-    List<Transform> RoutesAsAList = new List<Transform>();
-
-    [SerializeField]
-    [Tooltip("Speed at which AI moves")]
-    float speedModifier = 1;
-
-    int routeIndex = 1;
-
-    float tParam;
-
-    bool coroutineAllowed = true;
-
-    bool initialInstantiation = false;
+    [Tooltip("Enable this if you want debug msgs to appear on console")]
+    public bool AllowDebugMsg = false;
 
     public Vector2 EndPoint()
     {
@@ -132,38 +111,7 @@ public class RouteMaster : MonoBehaviour {
         }
     }
 
-    #region Code executed in "RUN" mode
-
-    void Start()
-    {
-        routeIndex = 1;
-        tParam = 0;
-        if (curveUsedForMovement)
-        {
-            PopulateRoutesAsAList();
-            coroutineAllowed = true;
-            //StartCoroutine(SpawnFollowers());
-            //StartCoroutine(FollowRoute(routeIndex));
-            
-        }
-        Debug.Log(Routes.Count);
-    }
-
-    void Update()
-    {
-        if (coroutineAllowed && curveUsedForMovement)
-            StartCoroutine(FollowRoute(routeIndex));
-    }
-
-    void PopulateRoutesAsAList()
-    {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            var r = transform.GetChild(i).transform;
-            if (r.GetComponent<Route>() != null)
-                RoutesAsAList.Add(r);
-        }
-    }
+    
 
     public List<Route> lRoutes ()
     {
@@ -177,52 +125,5 @@ public class RouteMaster : MonoBehaviour {
         return temp;
     }
 
-    IEnumerator SpawnFollowers()
-    {
-        if (curveUsedForMovement && initialInstantiation == false)
-        {
-            for (int i = 0; i < RouteFollowers.Count; i++)
-            {
-                yield return new WaitForSeconds(0.5f * i);
-                Followers.Add(Instantiate(RouteFollowers[i]), Vector3.zero);
-            }
-        }
-    }
-
-    IEnumerator FollowRoute(int routeNumber)
-    {
-        coroutineAllowed = false;
-
-        Vector2 p0 = RoutesAsAList[routeNumber].GetChild(0).position;
-        Vector2 p1 = RoutesAsAList[routeNumber].GetChild(1).position;
-        Vector2 p2 = RoutesAsAList[routeNumber].GetChild(2).position;
-        Vector2 p3 = RoutesAsAList[routeNumber].GetChild(3).position;
-
-        foreach (var f in RouteFollowers)
-        {
-            if (f != null)
-            {
-                while (tParam < 1)
-                {
-                    tParam += Time.deltaTime * speedModifier;
-
-                    var pos = Mathf.Pow(1 - tParam, 3) * p0 +
-                        3 * Mathf.Pow(1 - tParam, 2) * tParam * p1 +
-                        3 * (1 - tParam) * Mathf.Pow(tParam, 2) * p2 +
-                        Mathf.Pow(tParam, 3) * p3;
-
-                    f.transform.position = pos;
-                    yield return new WaitForEndOfFrame();
-                } 
-            }
-        }
-        tParam = 0f;
-        routeIndex += 1;
-
-        if (routeIndex > RouteFollowers.Count - 1)
-            routeIndex = 0;
-
-        coroutineAllowed = true;
-    }
-    #endregion
+    
 }

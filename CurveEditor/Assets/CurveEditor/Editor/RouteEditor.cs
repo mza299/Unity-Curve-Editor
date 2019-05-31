@@ -16,7 +16,7 @@ public class RouteEditor : Editor{
             //Instantiate(toLoad);
             PrefabUtility.InstantiatePrefab(toLoad);
         else
-            Debug.LogError("Unable to load?");
+            Debug.LogError("Unable to load via PrefabUtility.ins...?");
     }
 
     public override void OnInspectorGUI()
@@ -29,6 +29,10 @@ public class RouteEditor : Editor{
         //master.InitPrefab();
 
         //master.CreateNewRoute();
+
+        //This is only debugging purposes
+        if (master.AllowDebugMsg)
+            CheckRouteDataInEditor(master);
 
         if (GUILayout.Button("New Route"))
         {
@@ -84,6 +88,27 @@ public class RouteEditor : Editor{
             return true;
         else
             return false;
+    }
+
+    [ContextMenu("Check route data")]
+    void CheckRouteDataInEditor(RouteMaster _m)
+    {
+        Debug.Log("You have " + _m.Routes.Count + " routes");
+        Debug.Log("You have a total of " + totalControlPoints(_m) + " Handles");
+    }
+
+    int totalControlPoints(RouteMaster _m)
+    {
+        int index = 0;
+        foreach (var route in _m.Routes)
+        {
+            foreach (var cp in route.controlPoints)
+            {
+                if (cp != null)
+                    index++;
+            }
+        }
+        return index;
     }
 
     protected virtual void OnSceneGUI()
@@ -150,12 +175,16 @@ public class RouteEditor : Editor{
                 if (EditorGUI.EndChangeCheck())
                 {
                     Undo.RecordObject(master, "Change Look At Target Position");
+
+                    routes[i].controlPoints[1].position = curveDeterment1;
+                    routes[i].controlPoints[2].position = curveDeterment2;
+
                     routes[i].controlPoints[3].position = newTargetPos;
                     if (routes[i - 1] != null)
                         routes[i - 1].controlPoints[0].position = newTargetPos;
 
-                    routes[i].controlPoints[1].position = curveDeterment1;
-                    routes[i].controlPoints[2].position = curveDeterment2;
+                    //Undo.RecordObject(master, "Change Look At Target Position");
+                    
                 }
             }
         }
