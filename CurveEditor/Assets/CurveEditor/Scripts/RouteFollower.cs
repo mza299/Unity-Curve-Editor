@@ -22,6 +22,12 @@ public class RouteFollower : MonoBehaviour {
 
     bool delayHappened = false;
 
+    bool reachedTheEnd = false;
+
+    [SerializeField]
+    [Tooltip("Do you want the AI to return back in a ping-pong fashion")]
+    bool pingPong = false;
+
     private void Start()
     {
         if (routeMaster != null)
@@ -40,7 +46,76 @@ public class RouteFollower : MonoBehaviour {
     private void Update()
     {
         if (coroutineAllowed)
-            StartCoroutine(Follow());
+        {
+            if (pingPong == false)
+                StartCoroutine(Follow());
+            else
+                StartCoroutine(PingPongFollow());
+        }
+    }
+
+    IEnumerator PingPongFollow()
+    {
+        coroutineAllowed = false;
+        var miniInterval = speedModifier / EverySinglePoint.Count;
+        if (reachedTheEnd == false)
+        {
+            for (int i = 0; i < EverySinglePoint.Count; i++)
+            {
+                var timer = 0f;
+                if (delayHappened == true)
+                {
+                    while (timer < miniInterval)
+                    {
+                        timer += Time.deltaTime;
+                        if (i < EverySinglePoint.Count - 1)
+                        {
+                            if (i == EverySinglePoint.Count -1)
+                            {
+                                reachedTheEnd = true;
+                                break;
+                            }
+                            transform.position = Vector2.MoveTowards(EverySinglePoint[i], EverySinglePoint[i + 1], timer / miniInterval);
+                            yield return new WaitForEndOfFrame();
+                        }
+                    }
+                }
+                else
+                {
+                    delayHappened = true;
+                    yield return new WaitForSeconds(Delay);
+                }
+            }
+        }
+        else
+        {
+            for (int i = EverySinglePoint.Count-1; i > 0; i--)
+            {
+                var timer = 0f;
+                if (delayHappened == true)
+                {
+                    while (timer < miniInterval)
+                    {
+                        timer += Time.deltaTime;
+                        if (i < 1)
+                        {
+                            if (i == 0)
+                            {
+                                reachedTheEnd = false;
+                                break;
+                            }
+                            transform.position = Vector2.MoveTowards(EverySinglePoint[i], EverySinglePoint[i - 1], timer / miniInterval);
+                            yield return new WaitForEndOfFrame();
+                        }
+                    }
+                }
+                else
+                {
+                    delayHappened = true;
+                    yield return new WaitForSeconds(Delay);
+                }
+            }
+        }
     }
 
     IEnumerator Follow()
