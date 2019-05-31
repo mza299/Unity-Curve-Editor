@@ -34,6 +34,16 @@ public class RouteEditor : Editor{
         if (master.AllowDebugMsg)
             CheckRouteDataInEditor(master);
 
+        var centeredStyle = GUI.skin.GetStyle("Label");
+        centeredStyle.alignment = TextAnchor.UpperCenter;
+        centeredStyle.fontSize = 15;
+        centeredStyle.fontStyle = FontStyle.Bold;
+
+        GUILayout.Space(10);
+        GUILayout.Label("Route Management", centeredStyle);
+
+        GUILayout.BeginHorizontal();
+
         if (GUILayout.Button("New Route"))
         {
             Debug.Log("Button Pressed");
@@ -44,6 +54,9 @@ public class RouteEditor : Editor{
         {
             master.DeleteNewestRoute();
         }
+
+        GUILayout.EndHorizontal();
+        GUILayout.Space(25);
 
         if (GUILayout.Button("Reload precision points"))
         {
@@ -57,6 +70,9 @@ public class RouteEditor : Editor{
         {
             master.SpawnObject();
         }
+
+        GUILayout.Space(10);
+        GUILayout.Label("Eraser", centeredStyle);
 
         if (master.isEraseMode == false)
         {
@@ -73,6 +89,43 @@ public class RouteEditor : Editor{
             }
         }
 
+        GUILayout.Space(10);
+
+        GUILayout.Label("Closing the Gap", centeredStyle);
+        GUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("Loop @ Beginning"))
+        {
+            CloseGap(master, true);
+        }
+
+        if (GUILayout.Button("Loop @ End"))
+        {
+            CloseGap(master, false);
+        }
+
+        GUILayout.EndHorizontal();
+
+    }
+
+    void CloseGap(RouteMaster m, bool atTheBegining)
+    {
+        if (m != null)
+        {
+            if (m.Routes.Count > 1)
+            {
+                if (atTheBegining == false)
+                {
+                    Vector2 lastpoint = m.Routes.Peek().IndividualPoints[m.Routes.Peek().IndividualPoints.Count];
+                    m.lRoutes()[0].controlPoints[0].position = lastpoint;
+                }
+                else
+                {
+                    Vector2 firstPoint = m.lRoutes()[0].controlPoints[0].position;
+                    m.Routes.Peek().controlPoints[3].position = firstPoint;
+                }
+            }
+        }
     }
 
     bool IsWithinEraseArea(Vector3 toErase, RouteMaster _master)

@@ -70,11 +70,11 @@ public class RouteFollower : MonoBehaviour {
                         timer += Time.deltaTime;
                         if (i < EverySinglePoint.Count - 1)
                         {
-                            if (i == EverySinglePoint.Count -1)
-                            {
-                                reachedTheEnd = true;
-                                break;
-                            }
+                            //if (i == EverySinglePoint.Count -1)
+                            //{
+                            //    reachedTheEnd = true;
+                            //    //break;
+                            //}
                             transform.position = Vector2.MoveTowards(EverySinglePoint[i], EverySinglePoint[i + 1], timer / miniInterval);
                             yield return new WaitForEndOfFrame();
                         }
@@ -85,6 +85,8 @@ public class RouteFollower : MonoBehaviour {
                     delayHappened = true;
                     yield return new WaitForSeconds(Delay);
                 }
+                coroutineAllowed = true;
+                reachedTheEnd = !reachedTheEnd;
             }
         }
         else
@@ -99,11 +101,11 @@ public class RouteFollower : MonoBehaviour {
                         timer += Time.deltaTime;
                         if (i < 1)
                         {
-                            if (i == 0)
-                            {
-                                reachedTheEnd = false;
-                                break;
-                            }
+                            //if (i == 0)
+                            //{
+                            //    reachedTheEnd = false;
+                            //    //break;
+                            //}
                             transform.position = Vector2.MoveTowards(EverySinglePoint[i], EverySinglePoint[i - 1], timer / miniInterval);
                             yield return new WaitForEndOfFrame();
                         }
@@ -114,6 +116,8 @@ public class RouteFollower : MonoBehaviour {
                     delayHappened = true;
                     yield return new WaitForSeconds(Delay);
                 }
+                coroutineAllowed = true;
+                reachedTheEnd = !reachedTheEnd;
             }
         }
     }
