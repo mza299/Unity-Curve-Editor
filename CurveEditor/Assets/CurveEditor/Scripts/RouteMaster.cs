@@ -64,6 +64,9 @@ public class RouteMaster : MonoBehaviour {
     [Range(0.1f, 100f)]
     public float gapBetweenAgents = 0.25f;
 
+    [HideInInspector]
+    public List<GameObject> SpawnedAIs = new List<GameObject>();
+
     public Vector2 EndPoint()
     {
         if (Routes != null && Routes.Count > 0)

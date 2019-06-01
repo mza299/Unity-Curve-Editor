@@ -115,6 +115,7 @@ public class RouteEditor : Editor{
         GUILayout.Space(10);
 
         GUILayout.Label("<color=#a94064>AI Management</color>", centeredStyle);
+        GUILayout.Label("<size=9><color=#a94064>The button will overwrite the number of AIs you have in the scene</color></size>", centeredStyle);
 
         GUILayout.BeginHorizontal();
 
@@ -131,10 +132,21 @@ public class RouteEditor : Editor{
     {
         if (Resources.Load("Prefabs/_testAI") != null)
         {
+            for (int i = 0; i < master.SpawnedAIs.Count; i++)
+            {
+                if (master.SpawnedAIs[i] != null)
+                {
+                    DestroyImmediate(master.SpawnedAIs[i]);
+                }
+            }
+
+            master.SpawnedAIs.Clear();
+           
             for (int i = 0; i < master.NoofAIs; i++)
             {
                 var ai = PrefabUtility.InstantiatePrefab(Resources.Load("Prefabs/_testAI")) as GameObject;
                 ai.transform.position = master.transform.position + (Vector3.up * i);
+                master.SpawnedAIs.Add(ai);
 
                 //Get the relevant component from ai
                 var routeFollower = ai.GetComponent<RouteFollower>();
@@ -194,13 +206,14 @@ public class RouteEditor : Editor{
             {
                 if (atTheBegining == false)
                 {
-                    Vector2 lastpoint = m.Routes.Peek().IndividualPoints[m.Routes.Peek().IndividualPoints.Count];
+                    Vector2 lastpoint = m.Routes.Peek().IndividualPoints[m.Routes.Peek().IndividualPoints.Count-1];
                     m.lRoutes()[0].controlPoints[0].position = lastpoint;
                 }
                 else
-                {
+                { 
                     Vector2 firstPoint = m.lRoutes()[0].controlPoints[0].position;
                     m.Routes.Peek().controlPoints[3].position = firstPoint;
+                    
                 }
             }
         }
