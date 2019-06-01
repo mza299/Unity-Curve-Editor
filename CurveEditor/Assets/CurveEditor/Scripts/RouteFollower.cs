@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class RouteFollower : MonoBehaviour {
 
@@ -27,6 +28,32 @@ public class RouteFollower : MonoBehaviour {
     [SerializeField]
     [Tooltip("Do you want the AI to return back in a ping-pong fashion")]
     bool pingPong = false;
+
+    public enum AITYPE { NONE, TEST};
+
+    public AITYPE aITYPE;
+
+    Dictionary<AITYPE, GameObject> AI = new Dictionary<AITYPE, GameObject>();
+
+    public void ManageAIDictionaryForEditor()
+    {
+        AI.Clear();
+        AI.Add(AITYPE.NONE, Resources.Load("Prefabs/AI") as GameObject);
+        AI.Add(AITYPE.TEST, Resources.Load("Prefabs/AI") as GameObject);
+    }
+
+    public void ReplaceAIInEditor()
+    {
+        if (transform.childCount > 0)
+        {
+            DestroyImmediate(transform.GetChild(0).gameObject);
+            GameObject instance = PrefabUtility.InstantiatePrefab(AI[aITYPE]) as GameObject;
+            instance.transform.position = transform.position;
+            instance.transform.parent = transform;
+        }
+        else
+            Debug.LogWarning(gameObject.name + " does not have any childs attached to it");
+    }
 
     private void Start()
     {

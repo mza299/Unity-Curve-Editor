@@ -9,43 +9,43 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1136211964424546}
+  m_RootGameObject: {fileID: 1825751949654770}
   m_IsPrefabParent: 1
---- !u!1 &1136211964424546
+--- !u!1 &1825751949654770
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4256930790906758}
-  - component: {fileID: 212026292344344910}
+  - component: {fileID: 4646708092086288}
+  - component: {fileID: 212887326054044542}
   m_Layer: 0
-  m_Name: Sqr
+  m_Name: AI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4256930790906758
+--- !u!4 &4646708092086288
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1136211964424546}
+  m_GameObject: {fileID: 1825751949654770}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27.849487, y: -0.75907373, z: 0}
+  m_LocalPosition: {x: 5.9393005, y: 4.4983754, z: 2.7265625}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &212026292344344910
+--- !u!212 &212887326054044542
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1136211964424546}
+  m_GameObject: {fileID: 1825751949654770}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
