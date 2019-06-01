@@ -112,6 +112,68 @@ public class RouteEditor : Editor{
 
         GUILayout.EndHorizontal();
 
+        GUILayout.Space(10);
+
+        GUILayout.Label("<color=#a94064>AI Management</color>", centeredStyle);
+
+        GUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("Instantiate AI"))
+        {
+            Spawn(master);
+        }
+        
+        GUILayout.EndHorizontal();
+
+    }
+
+    void Spawn(RouteMaster master)
+    {
+        if (Resources.Load("Prefabs/_testAI") != null)
+        {
+            for (int i = 0; i < master.NoofAIs; i++)
+            {
+                var ai = PrefabUtility.InstantiatePrefab(Resources.Load("Prefabs/_testAI")) as GameObject;
+                ai.transform.position = master.transform.position + (Vector3.up * i);
+
+                //Get the relevant component from ai
+                var routeFollower = ai.GetComponent<RouteFollower>();
+                if (routeFollower != null)
+                {
+                    routeFollower.routeMaster = master;
+                    routeFollower.speedModifier = master.speedModifier;
+                    routeFollower.Delay = i* master.gapBetweenAgents;
+                    switch (master._aITYPE)
+                    {
+                        case RouteMaster._AITYPE.NONE:
+                            if (Resources.Load("Prefabs/AI") != null)
+                            {
+                                var type = PrefabUtility.InstantiatePrefab(Resources.Load("Prefabs/AI")) as GameObject;
+                                type.transform.position = master.transform.position + (Vector3.up * i);
+                                type.transform.parent = ai.transform;
+                            }
+                            else
+                                Debug.LogError("Error of Resources.Load possibly the path");
+                            break;
+                        case RouteMaster._AITYPE.TEST:
+                            if (Resources.Load("Prefabs/AI") != null)
+                            {
+                                var type = PrefabUtility.InstantiatePrefab(Resources.Load("Prefabs/AI")) as GameObject;
+                                type.transform.position = master.transform.position + (Vector3.up * i);
+                                type.transform.parent = ai.transform;
+                            }
+                            else
+                                Debug.LogError("Error of Resources.Load possibly the path");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                    Debug.LogError("No routefollower script attached to instance???");
+            }
+            
+        }
     }
 
     void CreateFlatPath(RouteMaster m)

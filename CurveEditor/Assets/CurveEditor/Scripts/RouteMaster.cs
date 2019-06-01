@@ -41,6 +41,28 @@ public class RouteMaster : MonoBehaviour {
 
     [Tooltip("Enable this if you want debug msgs to appear on console")]
     public bool AllowDebugMsg = false;
+    
+    [Space]
+    [Header("AI Stuff")]
+    [Tooltip("AI")]
+    [Range(1, 100)]
+    //[SerializeField]
+    public int NoofAIs = 1;
+
+    //[SerializeField]
+    //public GameObject AI;
+
+    public enum _AITYPE { NONE, TEST};
+
+    [Tooltip("TYpe of AI")]
+    //[SerializeField]
+    public _AITYPE _aITYPE;
+
+    [Range(1, 10)]
+    public float speedModifier = 1;
+
+    [Range(0.1f, 100f)]
+    public float gapBetweenAgents = 0.25f;
 
     public Vector2 EndPoint()
     {

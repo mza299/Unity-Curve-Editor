@@ -11,13 +11,11 @@ public class RouteFollower : MonoBehaviour {
 
     List<Vector2> EverySinglePoint = new List<Vector2>();
 
-    [SerializeField]
     [Header("The higher the value, the slower it is")]
-    float speedModifier = 1;
+    public float speedModifier = 1;
 
-    [SerializeField]
     [Tooltip("Delay before starting movement")]
-    float Delay = 0;
+    public float Delay = 0;
 
     bool coroutineAllowed = true;
 
