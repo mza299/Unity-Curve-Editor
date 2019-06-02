@@ -34,6 +34,8 @@ public class RouteEditor : Editor{
         if (master.AllowDebugMsg)
             CheckRouteDataInEditor(master);
 
+        ColorTheCurves(master);
+
         var centeredStyle = GUI.skin.GetStyle("Label");
         centeredStyle.alignment = TextAnchor.UpperCenter;
         centeredStyle.fontSize = 15;
@@ -123,9 +125,32 @@ public class RouteEditor : Editor{
         {
             Spawn(master);
         }
+
+        if (GUILayout.Button("Clear All AIs"))
+        {
+            ClearAIs(master);
+        }
         
         GUILayout.EndHorizontal();
 
+    }
+
+    void ColorTheCurves(RouteMaster master)
+    {
+        foreach (var route in master.Routes)
+        {
+            route.colorOfCurve = master.preferedColor;
+        }
+    }
+
+    void ClearAIs(RouteMaster master)
+    {
+        foreach (var ai in master.SpawnedAIs)
+        {
+            if (ai != null)
+                DestroyImmediate(ai);
+        }
+        master.SpawnedAIs.Clear();
     }
 
     void Spawn(RouteMaster master)

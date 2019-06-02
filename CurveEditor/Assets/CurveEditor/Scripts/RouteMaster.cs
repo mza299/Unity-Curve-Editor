@@ -41,11 +41,14 @@ public class RouteMaster : MonoBehaviour {
 
     [Tooltip("Enable this if you want debug msgs to appear on console")]
     public bool AllowDebugMsg = false;
+
+    [Tooltip("The color of the besier curve in editor mode")]
+    public Color preferedColor = Color.green;
     
     [Space]
     [Header("AI Stuff")]
     [Tooltip("AI")]
-    [Range(1, 100)]
+    [Range(0, 100)]
     //[SerializeField]
     public int NoofAIs = 1;
 
@@ -58,7 +61,7 @@ public class RouteMaster : MonoBehaviour {
     //[SerializeField]
     public _AITYPE _aITYPE;
 
-    [Range(1, 10)]
+    [Range(0, 100)]
     public float speedModifier = 1;
 
     [Range(0.1f, 100f)]

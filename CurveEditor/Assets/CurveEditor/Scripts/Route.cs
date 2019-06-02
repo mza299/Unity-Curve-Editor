@@ -16,6 +16,8 @@ public class Route : MonoBehaviour {
     [HideInInspector]
     public List<Vector2> IndividualPoints = new List<Vector2>();
 
+    public Color colorOfCurve = Color.green;
+
     void OnDrawGizmos()
     {
         IndividualPoints.Clear();
@@ -26,7 +28,7 @@ public class Route : MonoBehaviour {
                 3 * (1 - t) * Mathf.Pow(t, 2) * controlPoints[2].position +
                 Mathf.Pow(t, 3) * controlPoints[3].position;
 
-            Gizmos.color = Color.green;
+            Gizmos.color = colorOfCurve;
             Gizmos.DrawSphere(gizmosPositions, 0.25f);
             IndividualPoints.Add(gizmosPositions);
         }
